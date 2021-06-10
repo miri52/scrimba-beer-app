@@ -139,3 +139,81 @@ input + svg {
   cursor: default;
   color: var(--disabled);
 }
+
+/* beer styles */
+
+.beers {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 1rem;
+}
+
+.beer-wrapper {
+  justify-content: center;
+  align-items: flex-end;
+  position: relative;
+}
+
+.beers .beer {
+  display: grid;
+  grid-auto-columns: 1fr;
+  align-items: end;
+  padding: 2rem;
+  text-align: center;
+  width: 100%;
+}
+
+.beer .beer__img {
+  margin: auto;
+  height: 20rem;
+}
+
+.beer .beer__info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.beer__content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 1.5rem;
+  width: calc(100% - (1.5rem * 2));
+  height: calc(100% - (1.5rem * 2));
+  background: white;
+  overflow: auto;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.beer__content:hover {
+  opacity: 0.92;
+}
+
+.beer__name {
+  margin: 0 auto 0.5rem auto;
+  font-family: "Old Standard TT", serif;
+  font-size: 2.4rem;
+  line-height: 1.07em;
+  letter-spacing: -0.015em;
+}
+
+.beer__tagline {
+  padding-bottom: 0.5rem;
+  font-family: "Old Standard TT", serif;
+  font-style: italic;
+  border-bottom: 2px solid var(--blue);
+}
+
+.beer__description {
+  margin: 1rem 0;
+  font-size: 0.9rem;
+  line-height: 1.3rem;
+}
+
+.beer__food-pairing {
+  font-style: italic;
+  font-size: 0.9rem;
+  line-height: 1.3em;
+}
