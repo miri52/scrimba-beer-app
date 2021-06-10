@@ -1,16 +1,86 @@
 // variables
-const urlBase = "https://api.punkapi.com/v2/beers";
+const urlBase = "https://api.punkapi.com/v2/beers?page=";
 const beersDiv = document.querySelector(".beers");
+const filterABV = document.getElementById("filterABV");
+const filterIBU = document.getElementById("filterIBU");
+const pageText = document.getElementById("pageNumber");
+const prevPage = document.getElementById("prevPage");
+const nextPage = document.getElementById("nextPage");
 
-// Create an async function called "getBeers" that uses fetch to get our beer data from the urlBase.
-// Render each beer name inside the div with the class of beers that currently exists in the HTML file.
+let optionsABV = "";
+let optionsIBU = "";
+let page = 1;
+
+// filters
+filterABV.addEventListener("change", (e) => {
+  const value = e.target.value;
+  switch (value) {
+    case "all":
+      optionsABV = "";
+      break;
+    case "weak":
+      optionsABV = "&abv_lt=4.6";
+      break;
+    case "medium":
+      optionsABV = "&abv_gt=4.5&abv_lt=7.6";
+      break;
+    case "strong":
+      optionsABV = "&abv_gt=7.5";
+      break;
+  }
+
+  page = 1;
+
+  getBeers();
+});
+
+filterIBU.addEventListener("change", (e) => {
+  const value = e.target.value;
+  switch (value) {
+    case "all":
+      optionsIBU = "";
+      break;
+    case "weak":
+      optionsIBU = "&ibu_lt=35";
+      break;
+    case "medium":
+      optionsIBU = "&ibu_gt=34&ibu_lt=75";
+      break;
+    case "strong":
+      optionsIBU = "&ibu_gt=74";
+      break;
+  }
+
+  page = 1;
+
+  getBeers();
+});
 
 //punk API limits every request to 25 beers
 async function getBeers() {
+  const url = urlBase + page + optionsABV + optionsIBU;
+  console.log(url);
   try {
     // fetch data
-    const request = await fetch(urlBase);
+    const request = await fetch(url);
     const beerData = await request.json();
+
+    // pagination
+
+    // disable prev button
+    pageText.innerText = page;
+    if (page === 1) {
+      prevPage.disabled = true;
+    } else {
+      prevPage.disabled = false;
+    }
+
+    // disable next button
+    if (beerData.length < 25) {
+      nextPage.disabled = true;
+    } else {
+      nextPage.disabled = false;
+    }
 
     // render data
     let beerHtml = "";
@@ -44,4 +114,15 @@ async function getBeers() {
   }
 }
 
+// pagination
+prevPage.addEventListener("click", () => {
+  page--;
+  getBeers();
+});
+nextPage.addEventListener("click", () => {
+  page++;
+  getBeers();
+});
+
+// inital get
 getBeers();
